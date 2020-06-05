@@ -112,7 +112,7 @@ class ADASSearchFormTests(TestCase):
         self.assertEqual(self.ds.first().entry_id,
                          'NERSC_test_dataset_titusen')
 
-    def test_filtering_functionality_by_similar_part_of_parameter_names(self):
+    def test_filter_with_common_part_of_parameter_name(self):
         """ Shall return both fixture datasets since both of them have 'nam' in their parameters' name """
         self.form = adasIndexView.form_class({'polygon': '',
                                               'time_coverage_start': timezone.datetime(2000, 12, 29),
