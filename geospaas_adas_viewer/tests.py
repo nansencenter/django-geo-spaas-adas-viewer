@@ -4,7 +4,7 @@ from django.utils import timezone
 from geospaas.base_viewer.tests import BaseViewerHTMLParser
 from geospaas.catalog.models import Dataset
 from geospaas.vocabularies.models import Parameter
-from geospaas_adas_viewer.views import adasIndexView
+from geospaas_adas_viewer.views import AdasIndexView
 
 
 class IntegrationTestsForGUIWithNewBase(TestCase):
