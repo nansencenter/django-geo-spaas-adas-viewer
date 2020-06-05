@@ -4,7 +4,7 @@ from geospaas.base_viewer.forms import BaseSearchForm
 
 
 class ADASSearchForm(BaseSearchForm):
-    """ Basic version of form for basic seaching of django-geospaas metadata """
+    """ Form with extended searching capabilities for ADAS """
     nameparameters = forms.CharField(
         required=False, label='name (or part of the name) of parameter')
 
