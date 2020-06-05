@@ -7,7 +7,7 @@ from geospaas.vocabularies.models import Parameter
 from geospaas_adas_viewer.views import AdasIndexView
 
 
-class IntegrationTestsForGUIWithNewBase(TestCase):
+class GuiIntegrationTests(TestCase):
     '''Integration tests for GET and POST methods of GUI'''
     fixtures = ["vocabularies", "catalog"]
 
