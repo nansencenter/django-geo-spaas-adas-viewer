@@ -75,7 +75,7 @@ class GuiIntegrationTests(TestCase):
                              for dat in self.parser.data]))
 
 
-class FilteringFunctionalityTestsForADASGUI(TestCase):
+class ADASSearchFormTests(TestCase):
     """ Unit tests for filter method which is placed inside the basic form """
     fixtures = ["vocabularies", "catalog"]
 
