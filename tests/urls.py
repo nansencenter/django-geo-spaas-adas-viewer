@@ -19,8 +19,9 @@ from django.contrib import admin
 
 urlpatterns = [
 
-    url(r'^adas/', include('geospaas_adas_viewer.urls')),
-    url(r'^', include('geospaas.urls')),
+    #url(r'^', include('geospaas.urls')),
+    url('', include('geospaas_adas_viewer.urls')),
+
 ]
 if settings.DEBUG:
     from django.conf.urls.static import static

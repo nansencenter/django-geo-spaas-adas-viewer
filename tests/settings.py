@@ -16,6 +16,7 @@ SECRET_KEY = 'chu2p96if%&^09w6okqjwc-%+hmpc1t3@b&i8*+3nvdk!xpdb0'
 
 INSTALLED_APPS = [
     'leaflet',
+    'geospaas.base_viewer',
     'geospaas_adas_viewer',
     'geospaas.catalog',
     'geospaas.vocabularies',
@@ -25,7 +26,6 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.messages',
-    'geospaas_rest_api'
 ]
 
 MIDDLEWARE = [
