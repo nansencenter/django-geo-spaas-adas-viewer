@@ -34,7 +34,7 @@ class GuiIntegrationTests(TestCase):
         self.assertTrue(any([('file://localhost/some/test/file2.ext' in dat)
                               for dat in self.parser.data]))
 
-    def test_the_post_verb_of_GUI_with_common_part_of_parameter_name(self):
+    def test_post_with_common_part_of_parameter_name(self):
         """shall return the uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a POST request without
         any polygon from user """
@@ -51,7 +51,7 @@ class GuiIntegrationTests(TestCase):
         self.assertTrue(any([('file://localhost/some/test/file2.ext' in dat)
                              for dat in self.parser.data]))
 
-    def test_the_get_verb_of_adas_GUI(self):
+    def test_the_get(self):
         """shall return ALL uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a GET request"""
         res5 = self.client.get('/adas/')
