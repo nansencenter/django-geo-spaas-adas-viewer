@@ -1,7 +1,7 @@
 from django.test import Client, TestCase
 from django.utils import timezone
 
-from geospaas.base_viewer.tests import BaseViewerHTMLParser
+from bs4 import BeautifulSoup
 from geospaas.catalog.models import Dataset
 from geospaas.vocabularies.models import Parameter
 from geospaas_adas_viewer.views import AdasIndexView
@@ -13,8 +13,6 @@ class GuiIntegrationTests(TestCase):
 
     def setUp(self):
         self.client = Client()
-        # this BaseViewerHTMLParser is configured to store the desired data of td tag into self.data
-        self.parser = BaseViewerHTMLParser()
 
     def test_the_post_verb_of_GUI_with_unique_part_of_parameter_name(self):
         """shall return the uri of fixtures' datasets in the specified placement
@@ -26,15 +24,14 @@ class GuiIntegrationTests(TestCase):
             'source': 1,
             'nameparameters': 'from_direction'})  # <= Notice the part of the name 'wind_from_direction' provided by user
         self.assertEqual(res3.status_code, 200)
-        self.parser.feed(str(res3.content))
-        # both datasets must be in the html
-        self.assertFalse(any([('file://localhost/some/test/file1.ext' in dat)
-                             for dat in self.parser.data]))
-        # The second one should not be in the html
-        self.assertTrue(any([('file://localhost/some/test/file2.ext' in dat)
-                              for dat in self.parser.data]))
+        soup = BeautifulSoup(str(res3.content), features="lxml")
+                # both datasets must be in the html
+        all_tds = soup.find_all("td", class_="place_ds")
+        self.assertEqual(len(all_tds), 1)
+        self.assertNotIn('file://localhost/some/test/file1.ext', all_tds[0].text)
+        self.assertIn('file://localhost/some/test/file2.ext', all_tds[0].text)
 
-    def test_the_post_verb_of_GUI_with_common_part_of_parameter_name(self):
+    def test_post_with_common_part_of_parameter_name(self):
         """shall return the uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a POST request without
         any polygon from user """
@@ -44,24 +41,28 @@ class GuiIntegrationTests(TestCase):
             'source': 1,
             'nameparameters': 'wind'})  # <= Notice the part of both names of 'wind_speed' and 'wind_from_direction' provided by user
         self.assertEqual(res4.status_code, 200)
-        self.parser.feed(str(res4.content))
-        # both datasets must be in the html
-        self.assertTrue(any([('file://localhost/some/test/file1.ext' in dat)
-                             for dat in self.parser.data]))
-        self.assertTrue(any([('file://localhost/some/test/file2.ext' in dat)
-                             for dat in self.parser.data]))
+        #self.parser.feed(str(res4.content))
+        soup = BeautifulSoup(str(res4.content), features="lxml")
+                # both datasets must be in the html
+        all_tds = soup.find_all("td", class_="place_ds")
+        self.assertIn('file://localhost/some/test/file1.ext', all_tds[0].text)
+        self.assertIn('file://localhost/some/test/file2.ext', all_tds[1].text)
 
-    def test_the_get_verb_of_adas_GUI(self):
+        #self.assertTrue(any([('file://localhost/some/test/file1.ext' in dat)
+        #                     for dat in self.parser.data]))
+        #self.assertTrue(any([('file://localhost/some/test/file2.ext' in dat)
+        #                     for dat in self.parser.data]))
+
+    def test_the_get(self):
         """shall return ALL uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a GET request"""
         res5 = self.client.get('/adas/')
         self.assertEqual(res5.status_code, 200)
-        self.parser.feed(str(res5.content))
-        # both datasets must be in the html
-        self.assertTrue(any([('file://localhost/some/test/file1.ext' in dat)
-                             for dat in self.parser.data]))
-        self.assertTrue(any([('file://localhost/some/test/file2.ext' in dat)
-                             for dat in self.parser.data]))
+        soup = BeautifulSoup(str(res5.content), features="lxml")
+                # both datasets must be in the html
+        all_tds = soup.find_all("td", class_="place_ds")
+        self.assertIn('file://localhost/some/test/file1.ext', all_tds[0].text)
+        self.assertIn('file://localhost/some/test/file2.ext', all_tds[1].text)
 
 
 class ADASSearchFormTests(TestCase):
