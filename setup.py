@@ -3,7 +3,7 @@ import setuptools
 
 setuptools.setup(name="geospaas_adas_viewer",
                  version="0.1.0",
-                 author=["Anton Korosov", "Anton Korosov", "Arash Azamifard"],
+                 author=["Arash Azamifard", "Anton Korosov"],
                  description="REST API for GeoSPaaS",
                  url="https://github.com/nansencenter/django-geo-spaas-adas-viewer",
                  packages=setuptools.find_packages(),
