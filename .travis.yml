@@ -1,7 +1,7 @@
 ---
 language: shell
 env:
-  - IMAGE_NAME="${DOCKER_ORG}/geospaas:latest"
+  - IMAGE_NAME="nansencenter/geospaas:latest"
 services: docker
 # Environment variables defined as part of the Travis CI repository configuration are:
 # - GITHUB_API_TOKEN: Github API key for the nerscci user
