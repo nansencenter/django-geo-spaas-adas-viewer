@@ -9,7 +9,7 @@ from geospaas_adas_viewer.views import AdasIndexView
 
 class GuiIntegrationTests(TestCase):
     '''Integration tests for GET and POST methods of GUI'''
-    fixtures = ["vocabularies", "catalog"]
+    fixtures = ["vocabularies_adas", "catalog_adas"]
 
     def setUp(self):
         self.client = Client()
@@ -67,7 +67,7 @@ class GuiIntegrationTests(TestCase):
 
 class ADASSearchFormTests(TestCase):
     """ Unit tests for filter method which is placed inside the basic form """
-    fixtures = ["vocabularies", "catalog"]
+    fixtures = ["vocabularies_adas", "catalog_adas"]
 
     def test_filtering_functionality_by_a_unique_part_of_parameter_name(self):
         """shall return the first dataset in fixtures
