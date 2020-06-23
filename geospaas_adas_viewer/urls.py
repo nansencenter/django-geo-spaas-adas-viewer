@@ -5,5 +5,5 @@ from geospaas_adas_viewer.views import AdasIndexView
 
 app_name = 'geospaas_adas_viewer'
 urlpatterns = [
-    url(r'^adas/', AdasIndexView.as_view(), name='adasindex'),
+    url(r'', AdasIndexView.as_view(), name='adasindex'),
 ]
