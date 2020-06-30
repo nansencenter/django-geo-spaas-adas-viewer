@@ -1,7 +1,9 @@
+import json
+
+from bs4 import BeautifulSoup
 from django.test import Client, TestCase
 from django.utils import timezone
 
-from bs4 import BeautifulSoup
 from geospaas.catalog.models import Dataset
 from geospaas.vocabularies.models import Parameter
 from geospaas_adas_viewer.views import AdasIndexView
@@ -15,15 +17,20 @@ class GuiIntegrationTests(TestCase):
         self.client = Client()
 
     def test_post_wrong_uri(self):
-        """shall return the uri of fixtures' datasets in the specified placement
-        of datasets inside the resulted HTML in the case of a POST with a part of
-        parameter name inside the charfield of parameter in form """
-        res3 = self.client.post('/adas', {
+        """ Shall return 404 for wrong URL """
+        res = self.client.post('/adas', {
             'time_coverage_start': timezone.datetime(2000, 12, 29),
             'time_coverage_end': timezone.datetime(2020, 1, 1),
             'source': 1,
-            'nameparameters': 'from_direction'})  # <= Notice the part of the name 'wind_from_direction' provided by user
-        self.assertEqual(res3.status_code, 404)
+            'nameparameters': 'from_direction'})
+        self.assertEqual(res.status_code, 404)
+
+    def test_get_geometry(self):
+        """ shall return GeoJSON geometry of the first dataset """
+        res = self.client.get('/geometry/1')
+        self.assertEqual(res.status_code, 200)
+        content = json.loads(res.content)
+        self.assertEqual(content['features'][0]['geometry']['type'], 'Polygon')
 
     def test_the_post_verb_of_GUI_with_unique_part_of_parameter_name(self):
         """shall return the uri of fixtures' datasets in the specified placement
