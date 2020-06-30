@@ -14,11 +14,22 @@ class GuiIntegrationTests(TestCase):
     def setUp(self):
         self.client = Client()
 
+    def test_post_wrong_uri(self):
+        """shall return the uri of fixtures' datasets in the specified placement
+        of datasets inside the resulted HTML in the case of a POST with a part of
+        parameter name inside the charfield of parameter in form """
+        res3 = self.client.post('/adas', {
+            'time_coverage_start': timezone.datetime(2000, 12, 29),
+            'time_coverage_end': timezone.datetime(2020, 1, 1),
+            'source': 1,
+            'nameparameters': 'from_direction'})  # <= Notice the part of the name 'wind_from_direction' provided by user
+        self.assertEqual(res3.status_code, 404)
+
     def test_the_post_verb_of_GUI_with_unique_part_of_parameter_name(self):
         """shall return the uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a POST with a part of
         parameter name inside the charfield of parameter in form """
-        res3 = self.client.post('/adas/', {
+        res3 = self.client.post('/', {
             'time_coverage_start': timezone.datetime(2000, 12, 29),
             'time_coverage_end': timezone.datetime(2020, 1, 1),
             'source': 1,
@@ -35,28 +46,22 @@ class GuiIntegrationTests(TestCase):
         """shall return the uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a POST request without
         any polygon from user """
-        res4 = self.client.post('/adas/', {
+        res4 = self.client.post('/', {
             'time_coverage_start': timezone.datetime(2000, 12, 29),
             'time_coverage_end': timezone.datetime(2020, 1, 1),
             'source': 1,
             'nameparameters': 'wind'})  # <= Notice the part of both names of 'wind_speed' and 'wind_from_direction' provided by user
         self.assertEqual(res4.status_code, 200)
-        #self.parser.feed(str(res4.content))
         soup = BeautifulSoup(str(res4.content), features="lxml")
                 # both datasets must be in the html
         all_tds = soup.find_all("td", class_="place_ds")
         self.assertIn('file://localhost/some/test/file1.ext', all_tds[0].text)
         self.assertIn('file://localhost/some/test/file2.ext', all_tds[1].text)
 
-        #self.assertTrue(any([('file://localhost/some/test/file1.ext' in dat)
-        #                     for dat in self.parser.data]))
-        #self.assertTrue(any([('file://localhost/some/test/file2.ext' in dat)
-        #                     for dat in self.parser.data]))
-
     def test_the_get(self):
         """shall return ALL uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a GET request"""
-        res5 = self.client.get('/adas/')
+        res5 = self.client.get('/')
         self.assertEqual(res5.status_code, 200)
         soup = BeautifulSoup(str(res5.content), features="lxml")
                 # both datasets must be in the html
