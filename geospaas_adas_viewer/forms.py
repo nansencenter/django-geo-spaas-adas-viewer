@@ -9,8 +9,8 @@ class ADASSearchForm(BaseSearchForm):
         required=False, label='name (or part of the name) of parameter')
 
     def filter(self, ds):
-        """ Filtering method of the form. All filtering processes
-        in addition to the base form filtering are here """
+        """ Filter input datasets <ds> using BaseSearchForm and nameparameters """
+
         ds = super().filter(ds)
         received_input_text = self.cleaned_data['nameparameters']
         if len(received_input_text) != 0:
