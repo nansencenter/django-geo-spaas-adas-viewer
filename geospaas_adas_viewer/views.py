@@ -5,4 +5,4 @@ class AdasIndexView(IndexView):
     """ The class-based view for processing both GET and POST methods of basic version of viewer """
     form_class = ADASSearchForm
     viewname = 'adasindex'
-    main_template = 'adas_viewer/ds_info.html'
+    main_template = 'adas_viewer/ds_info_adas.html'
