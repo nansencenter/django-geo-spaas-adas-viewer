@@ -1,21 +1,5 @@
 [
     {
-        "pk": 1,
-        "model": "catalog.DatasetParameter",
-        "fields": {
-            "dataset": 1,
-            "parameter": 12
-        }
-    },
-    {
-        "pk": 2,
-        "model": "catalog.DatasetParameter",
-        "fields": {
-            "dataset": 2,
-            "parameter": 14
-        }
-    },
-    {
     "pk": 1,
     "model": "catalog.source",
     "fields": {
@@ -46,6 +30,7 @@
         "summary": "This is a quite short summary about the test dataset.",
         "source": ["AQUA", "MODIS"],
         "geographic_location": 1,
+        "parameters": [12],
         "data_center": ["NERSC"],
         "gcmd_location": ["VERTICAL LOCATION", "SEA SURFACE", "", "", ""],
         "ISO_topic_category": ["Oceans"],
@@ -62,6 +47,7 @@
         "summary": "This is a quite short summary about the test dataset.",
         "source": ["AQUA", "MODIS"],
         "geographic_location": 2,
+        "parameters": [14],
         "data_center": ["NERSC"],
         "gcmd_location": ["VERTICAL LOCATION", "SEA SURFACE", "", "", ""],
         "ISO_topic_category": ["Oceans"],

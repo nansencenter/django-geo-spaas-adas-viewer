@@ -74,3 +74,5 @@ STATICFILES_DIRS = [
 "/project/static",
 ]
 SERIALIZATION_MODULES = {"geojson": "django.contrib.gis.serializers.geojson",}
+
+SHOW_LOCAL_ADDRESS = False

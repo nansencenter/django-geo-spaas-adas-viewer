@@ -3,6 +3,7 @@ import json
 from bs4 import BeautifulSoup
 from django.test import Client, TestCase
 from django.utils import timezone
+from mock.mock import patch
 
 from geospaas.catalog.models import Dataset
 from geospaas.vocabularies.models import Parameter
@@ -32,7 +33,8 @@ class GuiIntegrationTests(TestCase):
         content = json.loads(res.content)
         self.assertEqual(content['features'][0]['geometry']['type'], 'Polygon')
 
-    def test_the_post_verb_of_GUI_with_unique_part_of_parameter_name(self):
+    @patch('django.conf.settings.SHOW_LOCAL_ADDRESS', return_value=True)
+    def test_the_post_verb_of_GUI_with_unique_part_of_parameter_name(self, mock_django_settings):
         """shall return the uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a POST with a part of
         parameter name inside the charfield of parameter in form """
@@ -44,12 +46,13 @@ class GuiIntegrationTests(TestCase):
         self.assertEqual(res3.status_code, 200)
         soup = BeautifulSoup(str(res3.content), features="lxml")
                 # both datasets must be in the html
-        all_tds = soup.find_all("td", class_="place_ds")
+        all_tds = soup.find_all("tr", class_="dataset_row")
         self.assertEqual(len(all_tds), 1)
         self.assertNotIn('file://localhost/some/test/file1.ext', all_tds[0].text)
         self.assertIn('file://localhost/some/test/file2.ext', all_tds[0].text)
 
-    def test_post_with_common_part_of_parameter_name(self):
+    @patch('django.conf.settings.SHOW_LOCAL_ADDRESS', return_value=True)
+    def test_post_with_common_part_of_parameter_name(self, mock_django_settings):
         """shall return the uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a POST request without
         any polygon from user """
@@ -61,18 +64,19 @@ class GuiIntegrationTests(TestCase):
         self.assertEqual(res4.status_code, 200)
         soup = BeautifulSoup(str(res4.content), features="lxml")
                 # both datasets must be in the html
-        all_tds = soup.find_all("td", class_="place_ds")
+        all_tds = soup.find_all("tr", class_="dataset_row")
         self.assertIn('file://localhost/some/test/file1.ext', all_tds[0].text)
         self.assertIn('file://localhost/some/test/file2.ext', all_tds[1].text)
 
-    def test_the_get(self):
+    @patch('django.conf.settings.SHOW_LOCAL_ADDRESS', return_value=True)
+    def test_the_get(self, mock_django_settings):
         """shall return ALL uri of fixtures' datasets in the specified placement
         of datasets inside the resulted HTML in the case of a GET request"""
         res5 = self.client.get('/')
         self.assertEqual(res5.status_code, 200)
         soup = BeautifulSoup(str(res5.content), features="lxml")
                 # both datasets must be in the html
-        all_tds = soup.find_all("td", class_="place_ds")
+        all_tds = soup.find_all("tr", class_="dataset_row")
         self.assertIn('file://localhost/some/test/file1.ext', all_tds[0].text)
         self.assertIn('file://localhost/some/test/file2.ext', all_tds[1].text)
 
@@ -89,7 +93,7 @@ class ADASSearchFormTests(TestCase):
                                               'time_coverage_start': timezone.datetime(2000, 12, 29),
                                               'time_coverage_end': timezone.datetime(2020, 1, 1),
                                               'source': 1,
-                                              'nameparameters': 'from_direction'})  # <= Notice the difference betweem tests####
+                                              'nameparameters': 'from_direction'})  # <= Notice the difference between tests####
         form.is_valid()
         ds = Dataset.objects.all()
         ds = form.filter(ds)

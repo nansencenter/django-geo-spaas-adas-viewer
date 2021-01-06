@@ -1,0 +1,23 @@
+{% extends "base_viewer/ds_info.html" %}
+##############################################################################################################
+{% block ds_info_adas %}
+
+<div class="attr_title">Title:</div>
+<div class="attr_content">{{ ds.entry_id}} </div>
+<div class="attr_title">Data center:</div>
+<div class="attr_content">{{ ds.data_center}} </div>
+<div class="attr_title">Source:</div>
+<div class="attr_content">{{ ds.source}} </div>
+<div class="attr_title">Start time:</div>
+<div class="attr_content">{{ ds.time_coverage_start}} </div>
+<div class="attr_title">End time:</div>
+<div class="attr_content">{{ ds.time_coverage_end}} </div>
+
+{% if ds.parameters %}
+<div class="attr_title">Parameter(s):</div>
+{% for parameter in ds.parameters.all %}
+<div class="attr_content_list">{{ parameter.standard_name }}</div>
+{% endfor %}
+{% endif %}
+
+{% endblock ds_info_adas %}
