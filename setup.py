@@ -2,7 +2,7 @@
 import setuptools
 
 setuptools.setup(name="geospaas_adas_viewer",
-                 version="0.1.4",
+                 version="0.1.6",
                  author=["Arash Azamifard", "Anton Korosov"],
                  description="ADAS viewer for GeoSPaaS",
                  url="https://github.com/nansencenter/django-geo-spaas-adas-viewer",
