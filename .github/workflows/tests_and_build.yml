@@ -1,10 +1,6 @@
 ---
 name: "Unit tests and builds"
-on:
-  push:
-    branches: ['**']
-  release:
-    types: [released]
+on: push
 env:
   IMAGE_NAME: "${{ secrets.DOCKER_ORG }}/geospaas:latest-slim"
 jobs:
